@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Hello World 1`] = `
+Object {
+  "message": "Go Serverless v1.0! Your function executed successfully!",
+}
+`;

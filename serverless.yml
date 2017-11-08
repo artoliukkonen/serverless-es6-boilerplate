@@ -1,0 +1,59 @@
+# Welcome to serverless. Read the docs
+# https://serverless.com/framework/docs/
+
+# Serverless.yml is the configuration the CLI
+# uses to deploy your code to your provider of choice
+
+# The `service` block is the name of the service
+service: serverless-es6-boilerplate
+
+# The `provider` block defines where your service will be deployed
+provider:
+  name: aws
+  runtime: nodejs6.10
+  environment:
+    SERVERLESS_STAGE: ${opt:stage, self:provider.stage}
+    SERVERLESS_PROJECT: ${self:service}
+    SERVERLESS_REGION: ${opt:region, self:provider.region}
+  #   TABLE_NAME: ${self:provider.environment.SERVERLESS_PROJECT}-${self:provider.environment.SERVERLESS_STAGE}
+  # iamRoleStatements:
+  #   - Effect: Allow
+  #     Action:
+  #     - dynamodb:*
+  #     Resource: arn:aws:dynamodb:${self:provider.environment.SERVERLESS_REGION}:*:*
+  #   - Effect: Allow
+  #     Action:
+  #     - SNS:*
+  #     Resource: arn:aws:sns:${self:provider.environment.SERVERLESS_REGION}:*:*
+
+# The `functions` block defines what code to deploy
+functions:
+  helloWorld:
+    handler: handler.request
+    # The `events` block defines how to trigger the handler.request code
+    events:
+      - http:
+          path: /
+          method: get
+          cors: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+
+# resources:
+#   Resources:
+#    ExampleTable:
+#      Type: AWS::DynamoDB::Table
+#      DeletionPolicy: Delete
+#      Properties:
+#        AttributeDefinitions:
+#          - AttributeName: id
+#            AttributeType: S
+#        KeySchema:
+#          - AttributeName: id
+#            KeyType: HASH
+#        ProvisionedThroughput:
+#          ReadCapacityUnits: 1
+#          WriteCapacityUnits: 1
+#        TableName: ${self:provider.environment.TABLE_NAME}
