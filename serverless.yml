@@ -28,7 +28,7 @@ provider:
 
 # The `functions` block defines what code to deploy
 functions:
-  helloWorld:
+  helloWorldRequest:
     handler: handler.request
     # The `events` block defines how to trigger the handler.request code
     events:
