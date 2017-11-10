@@ -11,7 +11,8 @@ const RESOURCE_MAP = {
   (unless you are using this for actual production app and need to use Cognito & SNS & such)
   */
 
-export default function request(event, context, callback) {
+// eslint-disable-next-line import/prefer-default-export
+export function request(event, context, callback) {
   return Promise.resolve()
     .then(() => {
       if (event.httpMethod && event.resource) {
