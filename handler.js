@@ -12,7 +12,7 @@ const RESOURCE_MAP = {
   */
 
 // eslint-disable-next-line import/prefer-default-export
-export function request(event, context, callback) {
+export async function request(event) {
   return Promise.resolve()
     .then(() => {
       if (event.httpMethod && event.resource) {
@@ -25,10 +25,10 @@ export function request(event, context, callback) {
       console.log('UNKNOWN EVENT', event);
       return {};
     })
-    .then(sendProxySuccess.bind(null, callback), sendProxyError.bind(null, callback)); // eslint-disable-line
+    .then(sendProxySuccess.bind(), sendProxyError.bind()); // eslint-disable-line
 }
 
-function sendProxySuccess(callback, responseObj) {
+const sendProxySuccess = (responseObj) => {
   const response = responseObj && responseObj.statusCode ? responseObj : {
     statusCode: 200,
     body: JSON.stringify(responseObj),
@@ -37,10 +37,10 @@ function sendProxySuccess(callback, responseObj) {
       'Access-Control-Allow-Origin': '*',
     },
   };
-  callback(null, response);
-}
+  return response;
+};
 
-function sendProxyError(callback, err) {
+const sendProxyError = (err) => {
   console.log('ERROR:', err.stack || err);
   let status = 500;
   let message = err.message || JSON.stringify(err);
@@ -56,5 +56,5 @@ function sendProxyError(callback, err) {
       'Access-Control-Allow-Origin': '*',
     },
   };
-  callback(null, response);
-}
+  return response;
+};
