@@ -1,39 +1,56 @@
-# Welcome to serverless. Read the docs
-# https://serverless.com/framework/docs/
-
-# Serverless.yml is the configuration the CLI
-# uses to deploy your code to your provider of choice
-
-# The `service` block is the name of the service
 service: serverless-es6-boilerplate
 
-# The `provider` block defines where your service will be deployed
+custom:
+  profiles:
+    local: local
+    dev: 51
+    test: profile-test
+    prod: profile-prod
+  environment:
+    default_env: &default_env
+      SERVERLESS_SERVICE: ${self:service}
+      SERVERLESS_STAGE: ${self:provider.stage}
+      SERVERLESS_VERSION: ${file(./package.json):version}
+      SERVERLESS_REGION: ${opt:region, self:provider.region}
+    dev:
+      <<: *default_env
+      stage: dev
+    prod:
+      <<: *default_env
+      stage: prod
+
 provider:
   name: aws
   runtime: nodejs8.10
-  environment:
-    SERVERLESS_STAGE: ${opt:stage, self:provider.stage}
-    SERVERLESS_PROJECT: ${self:service}
-    SERVERLESS_REGION: ${opt:region, self:provider.region}
-  #   TABLE_NAME: ${self:provider.environment.SERVERLESS_PROJECT}-${self:provider.environment.SERVERLESS_STAGE}
-  # iamRoleStatements:
-  #   - Effect: Allow
-  #     Action:
-  #     - dynamodb:*
-  #     Resource: arn:aws:dynamodb:${self:provider.environment.SERVERLESS_REGION}:*:*
-  #   - Effect: Allow
-  #     Action:
-  #     - SNS:*
-  #     Resource: arn:aws:sns:${self:provider.environment.SERVERLESS_REGION}:*:*
+  stage: ${opt:stage, 'dev'} # Set the default stage used. Default is dev
+  region: ${opt:region, 'us-east-1'} # Overwrite the default region used. Default is us-east-1
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  memorySize: 512 # Overwrite the default memory size. Default is 1024
+  logRetentionInDays: 30 # Set the default RetentionInDays for a CloudWatch LogGroup
+  environment: ${self:custom.environment.${self:provider.stage}}
 
-# The `functions` block defines what code to deploy
+package: # Optional deployment packaging configuration
+  include: # Specify the directories and files which should be included in the deployment package
+    - src/**
+
+
 functions:
-  helloWorldRequest:
+  apiRequest:
     handler: handler.request
-    # The `events` block defines how to trigger the handler.request code
     events:
       - http:
+          # Health check
           path: /
+          method: get
+          cors: true
+      - http:
+          # Example function throwing error
+          path: /error
+          method: get
+          cors: true
+      - http:
+          # Example function returning promise
+          path: /promise
           method: get
           cors: true
 
@@ -41,19 +58,9 @@ plugins:
   - serverless-webpack
   - serverless-offline
 
-# resources:
-#   Resources:
-#    ExampleTable:
-#      Type: AWS::DynamoDB::Table
-#      DeletionPolicy: Delete
-#      Properties:
-#        AttributeDefinitions:
-#          - AttributeName: id
-#            AttributeType: S
-#        KeySchema:
-#          - AttributeName: id
-#            KeyType: HASH
-#        ProvisionedThroughput:
-#          ReadCapacityUnits: 1
-#          WriteCapacityUnits: 1
-#        TableName: ${self:provider.environment.TABLE_NAME}
+resources:
+  Resources:
+    HealthCheckLogGroup:
+      Type: AWS::Logs::LogGroup
+      Properties:
+        RetentionInDays: 1

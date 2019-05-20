@@ -1,8 +1,12 @@
-import getHello from './get-hello';
+import getHello from './src/get-healthcheck';
+import getPromise from './src/get-promise';
+import getError from './src/get-error';
 
 // Map your functions to http events here
 const RESOURCE_MAP = {
   '/': { GET: getHello },
+  '/error': { GET: getError },
+  '/promise': { GET: getPromise },
 };
 
 /*

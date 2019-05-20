@@ -1,4 +1,4 @@
-import getHello from '../get-hello';
+import getHello from '../src/get-healthcheck';
 
 test('Hello World', async () => {
   expect.assertions(1);
