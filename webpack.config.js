@@ -7,7 +7,7 @@ module.exports = (async () => {
   return {
     entry: slsw.lib.entries,
     target: 'node',
-    devtool: 'source- map',
+    devtool: 'source-map',
     externals: [nodeExternals()],
     mode: slsw.lib.webpack.isLocal ? 'development' : 'production',
     performance: {
