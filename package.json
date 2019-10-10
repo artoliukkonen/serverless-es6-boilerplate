@@ -15,7 +15,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "23.6.0",
     "babel-loader": "8.0.6",
-    "babel-plugin-source-map-support": "2.0.1",
+    "babel-plugin-source-map-support": "2.1.1",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.1",
     "eslint-plugin-import": "2.17.3",
