@@ -3,9 +3,9 @@ service: serverless-es6-boilerplate
 custom:
   profiles:
     local: local
-    dev: 51
-    test: profile-test
-    prod: profile-prod
+    # dev: 51
+    # test: profile-test
+    # prod: profile-prod
   environment:
     default_env: &default_env
       SERVERLESS_SERVICE: ${self:service}
