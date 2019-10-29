@@ -1,6 +1,9 @@
 service: serverless-es6-boilerplate
 
 custom:
+  webpack:
+    includeModules: true
+
   profiles:
     local: local
     # dev: 51
