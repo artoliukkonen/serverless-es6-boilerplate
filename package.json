@@ -9,25 +9,27 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "7.6.4",
-    "@babel/core": "7.6.4",
-    "@babel/preset-env": "7.6.3",
+    "@babel/cli": "7.8.3",
+    "@babel/core": "7.8.3",
+    "@babel/preset-env": "7.8.3",
     "babel-core": "7.0.0-bridge.0",
-    "babel-jest": "23.6.0",
+    "babel-jest": "24.9.0",
     "babel-loader": "8.0.6",
     "babel-plugin-source-map-support": "2.1.1",
-    "eslint": "5.16.0",
-    "eslint-config-airbnb": "17.1.1",
-    "eslint-plugin-import": "2.18.2",
+    "eslint": "6.8.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-plugin-import": "2.20.0",
     "eslint-plugin-jsx-a11y": "6.2.3",
-    "eslint-plugin-react": "7.16.0",
-    "jest": "23.6.0",
+    "eslint-plugin-react": "7.18.0",
+    "jest": "24.9.0",
     "regenerator-runtime": "0.13.3",
-    "serverless": "1.56.1",
-    "serverless-offline": "5.12.0",
+    "serverless": "1.61.1",
+    "serverless-offline": "5.12.1",
     "serverless-webpack": "5.3.1",
-    "webpack": "4.41.2",
+    "webpack": "4.41.5",
     "webpack-node-externals": "1.7.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "source-map-support": "^0.5.16"
+  }
 }
