@@ -2,12 +2,15 @@ service: serverless-es6-boilerplate
 
 custom:
   webpack:
-    includeModules: true
+    webpackConfig: ./webpack.config.js
+    includeModules: 
+      forceExclude:
+        - aws-sdk
 
   profiles:
     local: local
-    # dev: 51
-    # test: profile-test
+    # dev: profile-dev
+    # staging: profile-staging
     # prod: profile-prod
   environment:
     default_env: &default_env
@@ -15,19 +18,25 @@ custom:
       SERVERLESS_STAGE: ${self:provider.stage}
       SERVERLESS_VERSION: ${file(./package.json):version}
       SERVERLESS_REGION: ${opt:region, self:provider.region}
+    local:
+      <<: *default_env
+      stage: local
     dev:
       <<: *default_env
       stage: dev
+    stating:
+      <<: *default_env
+      stage: staging
     prod:
       <<: *default_env
       stage: prod
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: ${opt:stage, 'dev'} # Set the default stage used. Default is dev
   region: ${opt:region, 'us-east-1'} # Overwrite the default region used. Default is us-east-1
-  profile: ${self:custom.profiles.${self:provider.stage}}
+  profile: ${self:custom.profiles.${self:provider.stage}, 'default'}
   memorySize: 512 # Overwrite the default memory size. Default is 1024
   logRetentionInDays: 30 # Set the default RetentionInDays for a CloudWatch LogGroup
   environment: ${self:custom.environment.${self:provider.stage}}
@@ -35,7 +44,6 @@ provider:
 package: # Optional deployment packaging configuration
   include: # Specify the directories and files which should be included in the deployment package
     - src/**
-
 
 functions:
   apiRequest:
