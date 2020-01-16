@@ -1,5 +1,9 @@
 # serverless-es6-boilerplate
 
+
+[![Build Status](https://travis-ci.org/artoliukkonen/serverless-es6-boilerplate.svg?branch=master)](https://travis-ci.org/artoliukkonen/serverless-es6-boilerplate)
+
+
 Yet another Serverless Framework boilerplate with ES6/7, Jest & Eslint support.
 
 ## Why another boilerplate?
